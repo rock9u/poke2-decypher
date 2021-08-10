@@ -4472,5 +4472,5 @@ export function getPokemon() {
       name: 'toxtricity-low-key-gmax',
       url: 'https://pokeapi.co/api/v2/pokemon/10220/',
     },
-  ]
+  ];
 }

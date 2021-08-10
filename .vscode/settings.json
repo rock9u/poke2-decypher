@@ -1,6 +1,6 @@
 {
   "eslint.alwaysShowStatus": true,
-  "editor.formatOnSave": false,
+  "editor.formatOnSave": true,
   "files.autoSave": "onFocusChange",
   "eslint.validate": [
     "javascript"
