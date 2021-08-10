@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import 'antd/dist/antd.css'
 import { Input, Tooltip, Button, Empty } from 'antd'
-import { getPokemon } from '../services/pokemon'
+import { getPokemon } from './services/pokemon'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 
 
