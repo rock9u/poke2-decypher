@@ -9,5 +9,5 @@ gulp.task('default', function () {
     .pipe(replace(/(\w+)="\/static/g, 'inline $1="/static'))
     .pipe(inlinesource())
     .pipe(rename('app.html'))
-    .pipe(gulp.dest('./dist'))
+    .pipe(gulp.dest('./build/static'))
 })
