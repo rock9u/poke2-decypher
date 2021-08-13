@@ -1,20 +1,20 @@
 import React, { useState } from 'react'
 import 'antd/dist/antd.css'
-import { Input, Tooltip, Button, Empty } from 'antd'
+import { Input, Tooltip, Button, Empty, Card } from 'antd'
 import { getPokemon } from './services/pokemon'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 
 let App = () => {
   const buildRegexFromHint = (hint) => {
-    let ret = hint
+    let regexClouse = hint
       .toLowerCase()
       .split('')
       .map((c) => (c == '_' ? '\\w' : c))
       .join('')
 
-    console.log(ret)
     try {
-      return new RegExp(ret)
+      let regex = new RegExp(regexClouse)
+      return { hint, regex }
     } catch (e) {
       setError('Invalid Hint')
       console.error(e)
@@ -26,10 +26,9 @@ let App = () => {
   const [prefix, setPrefix] = useState('')
   const [error, setError] = useState(null)
 
-  const queryPokemon = (regex) => {
+  const queryPokemon = ({ hint, regex }) => {
     let resultList = getPokemon().filter((el) => {
-      let ret = !el.name.includes('-') && el.name.match(regex)
-      return ret
+      return el.name.length == hint.length && el.name.match(regex)
     })
     setResultList(resultList)
   }
@@ -43,12 +42,24 @@ let App = () => {
     return (
       <div>
         {resultList.length ? (
-          resultList.map((item, i) => {
+          resultList.map((item) => {
             let copyText = prefix ? prefix + ' ' + item.name : item.name
             return (
               <div>
-                <CopyToClipboard key={i} text={copyText}>
-                  <Tooltip title="Copy">
+                <CopyToClipboard key={item.name} text={copyText}>
+                  <Tooltip
+                    title={
+                      <div className="flex justify-center flex-col ">
+                        <img
+                          className="h-auto"
+                          alt={item.name}
+                          src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${item.url
+                            .split('/')
+                            .slice(-2, -1)}.png`}
+                        />
+                      </div>
+                    }
+                  >
                     <Button>{copyText} </Button>
                   </Tooltip>
                 </CopyToClipboard>
@@ -65,7 +76,7 @@ let App = () => {
   return (
     <div className="flex justify-center align-items m-4">
       <div className="flex justify-center items-center flex-col">
-        <div className="flex font-bold">PokeTwo Decypher</div>
+        <div className="flex font-bold text-4xl">PokeTwo Decypher</div>
         <div className="flex flex-row m-1">
           <Input
             placeholder="Prefix"
